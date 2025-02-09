@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                          // o una versión más reciente de ES
+    "module": "ESNext",
+    "jsx": "react-jsx",                       // Esto es necesario para que JSX funcione
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true,                            // Opcional, para tener una configuración más estricta
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
+}
