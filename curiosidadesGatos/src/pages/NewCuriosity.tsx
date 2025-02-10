@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { getCatFact, getCatImage } from '../services/catApi.ts';
-import { copyToClipboard } from '../hooks/useCopyToClipboard.ts';
-import { saveCuriosity } from '../utils/localStorageHelper.ts';
+import { useEffect, useState } from 'react';
+import { getCatFact, getCatImage } from '../services/catApi';
+import { copyToClipboard } from '../hooks/useCopyToClipboard';
+import { saveCuriosity } from '../utils/localStorageHelper';
 
 const NewCuriosity: React.FC = () => {
   const [fact, setFact] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState<boolean>(false);
 
   const fetchCuriosity = async () => {
     setLoading(true);
@@ -16,13 +17,13 @@ const NewCuriosity: React.FC = () => {
       console.log("Obteniendo curiosidad...");
       const factData = await getCatFact();
       console.log("Curiosidad recibida:", factData);
-  
+
       const firstWord = factData.split(' ')[0];
       console.log("Primera palabra:", firstWord);
-  
+
       const image = await getCatImage(firstWord);
       console.log("Imagen recibida:", image);
-  
+
       setFact(factData);
       setImageUrl(image);
     } catch (err: any) {
@@ -32,7 +33,6 @@ const NewCuriosity: React.FC = () => {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchCuriosity();
@@ -45,51 +45,54 @@ const NewCuriosity: React.FC = () => {
 
   const handleCopy = () => {
     copyToClipboard(fact);
-    alert('¡Curiosidad copiada al portapapeles!');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Resetear después de 2 segundos
   };
 
   return (
-    <div className="max-w-xl mx-auto">
-      {loading ? (
-        <div className="text-center">Cargando...</div>
-      ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
-      ) : (
-        <>
-          <div className="mb-4">
-            {imageUrl && (
-              <div className="w-full h-0 pb-[150%] relative mb-4">
-                <img
-                  src={imageUrl}
-                  alt="Gato"
-                  className="absolute inset-0 w-full h-full object-contain bg-black mx-auto"
-                />
-              </div>
-            )}
-          </div>
-          <p className="mb-4 text-gray-800">{fact}</p>
-          <div className="flex space-x-4">
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              Guardar
-            </button>
-            <button
-              onClick={handleCopy}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Copiar
-            </button>
-            <button
-              onClick={fetchCuriosity}
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-            >
-              Nueva Curiosidad
-            </button>
-          </div>
-        </>
-      )}
+    <div className="flex flex-col items-center justify-center bg-gradient-to-r from-blue-200 via-indigo-300 to-purple-200 h-[85vh]">
+      <div className="bg-white p-8 rounded-xl shadow-lg max-w-xl w-full overflow-hidden">
+        {loading ? (
+          <div className="text-center">Cargando...</div>
+        ) : error ? (
+          <div className="text-center text-red-500">{error}</div>
+        ) : (
+          <>
+            <div className="mb-4">
+              {imageUrl && (
+                <div className="w-full h-0 pb-[100%] relative mb-4 overflow-hidden">
+                  <img
+                    src={imageUrl}
+                    alt="Gato"
+                    className="absolute inset-0 w-full h-full object-contain bg-black mx-auto"
+                  />
+                </div>
+              )}
+            </div>
+            <p className="mb-4 text-gray-800">{fact}</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={handleSave}
+                className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300"
+              >
+                Guardar
+              </button>
+              <button
+                onClick={handleCopy}
+                className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              >
+                {copied ? '¡Copiado!' : 'Copiar'}
+              </button>
+              <button
+                onClick={fetchCuriosity}
+                className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
+              >
+                Nueva Curiosidad
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

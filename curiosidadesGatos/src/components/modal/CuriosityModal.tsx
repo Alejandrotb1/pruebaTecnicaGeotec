@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { copyToClipboard } from '../../hooks/useCopyToClipboard.ts';
+import { copyToClipboard } from '../../hooks/useCopyToClipboard';
 
 interface Curiosity {
   fact: string;
@@ -53,7 +53,7 @@ const CuriosityModal: React.FC<CuriosityModalProps> = ({ curiosity, onClose }) =
             <img
               src={curiosity.imageUrl}
               alt="Curiosidad"
-              className="absolute inset-0 w-full h-full object-contain bg-black mx-auto"
+              className="absolute inset-0 w-full h-full object-cover rounded"
             />
           </div>
         )}

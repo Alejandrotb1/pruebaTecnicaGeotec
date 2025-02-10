@@ -1,17 +1,20 @@
-// import React from 'react';
-// import { render, screen } from '@testing-library/react';
-// import { BrowserRouter as Router } from 'react-router-dom';
-// import NavBar from '../../src/components/layout/NavBar';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import NavBar from '../../src/components/layout/NavBar';
 
-// describe('NavBar', () => {
-//   test('renders navigation links', () => {
-//     render(
-//       <Router>
-//         <NavBar />
-//       </Router>
-//     );
+import '@testing-library/jest-dom';
 
-//     expect(screen.getByText(/Inicio/i)).toBeInTheDocument();
-//     expect(screen.getByText(/Mis Curiosidades/i)).toBeInTheDocument();
-//   });
-// });
+
+describe('NavBar', () => {
+  test('renders navigation links', () => {
+    render(
+      <Router>
+        <NavBar />
+      </Router>
+    );
+
+    expect(screen.getByText(/Inicio/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mis Curiosidades/i)).toBeInTheDocument();
+  });
+});

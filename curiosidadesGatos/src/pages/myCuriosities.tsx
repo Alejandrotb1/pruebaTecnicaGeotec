@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { getSavedCuriosities } from '../utils/localStorageHelper.ts';
-import CuriosityCard from '../components/cards/CuriosityCard.tsx';
-import CuriosityModal from '../components/modal/CuriosityModal.tsx';
+import  { useState } from 'react';
+import { getSavedCuriosities } from '../utils/localStorageHelper';
+import CuriosityCard from '../components/cards/CuriosityCard';
+import CuriosityModal from '../components/modal/CuriosityModal';
 
 interface Curiosity {
   fact: string;
